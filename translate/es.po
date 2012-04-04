@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: scdp\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-04 22:22+0200\n"
+"PO-Revision-Date: 2012-04-04 22:27+0100\n"
+"Last-Translator: Alfonso Saavedra \"Son Link\" <sonlink.dourden@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+
+#: ../cdtray.py:213
+#, python-format
+msgid "Track %s of %s"
+msgstr "Pista %s de %s"
+
+#: ../cdtray.py:239
+msgid "Configure CD Tray"
+msgstr "Configurar CD Tray"
+
+#: ../cdtray.py:272
+msgid "Set CD Device"
+msgstr "Dispositivo del CD"
+
+#: ../cdtray.py:284
+msgid "autostart at boot"
+msgstr "Auto arrancar al inicio"
+
+#: ../cdtray.py:302
+msgid ""
+"Special Thanks:\n"
+"To the Desde linux users for supporting me with their ideas\n"
+"To Desdelinux's user proper for helping me with the name of the program\n"
+"And for all of you for downloading and using this program"
+msgstr ""
+"Agradecimientos:\n"
+"A los usuarios de Desdelinux por su apoyo e ideas.\n"
+"Al usuario de Desdelinux proper por sugerir el nombre del programa.\n"
+"Y a todos vosotros por descargarlo y usarlo."
+
+#: ../cdtray.py:304
+msgid "Proyect page on my blog (Only in spanish)"
+msgstr "Pagina del proyecto en mi blog"
+
+#: ../cdtray.py:323
+msgid "Set CD device"
+msgstr "Dispositivo del CD"
+
+#: ../cdtray.py:324
+msgid "Force kill another cdtray instance"
+msgstr "Forzar el cierra de otra instancia de cdtray"
+
+#: ../cdtray.py:344
+msgid "Error!"
+msgstr "¡Error!"
+
+#: ../cdtray.py:345
+msgid "There is another cdtray instance running. If the program didn't close correctly, kill cdtray process"
+msgstr "Ya se esta ejecutando una instancia de CD Tray. Si el programa no salio correctamente, mate el proceso cdtray"
+
+#~ msgid "Set device from read CD"
+#~ msgstr "Ruta al dispositivo del CD"
+
+#~ msgid "CD Tray"
+#~ msgstr "CD Tray"

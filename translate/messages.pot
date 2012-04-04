@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-04 22:22+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../cdtray.py:213
+#, python-format
+msgid "Track %s of %s"
+msgstr ""
+
+#: ../cdtray.py:239
+msgid "Configure CD Tray"
+msgstr ""
+
+#: ../cdtray.py:272
+msgid "Set CD Device"
+msgstr ""
+
+#: ../cdtray.py:284
+msgid "autostart at boot"
+msgstr ""
+
+#: ../cdtray.py:302
+msgid ""
+"Special Thanks:\n"
+"To the Desde linux users for supporting me with their ideas\n"
+"To Desdelinux's user proper for helping me with the name of the program\n"
+"And for all of you for downloading and using this program"
+msgstr ""
+
+#: ../cdtray.py:304
+msgid "Proyect page on my blog (Only in spanish)"
+msgstr ""
+
+#: ../cdtray.py:323
+msgid "Set CD device"
+msgstr ""
+
+#: ../cdtray.py:324
+msgid "Force kill another cdtray instance"
+msgstr ""
+
+#: ../cdtray.py:344
+msgid "Error!"
+msgstr ""
+
+#: ../cdtray.py:345
+msgid ""
+"There is another cdtray instance running. If the program didn't close "
+"correctly, kill cdtray process"
+msgstr ""

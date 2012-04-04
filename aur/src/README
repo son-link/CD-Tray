@@ -1,0 +1,11 @@
+Systray CD Player: Reproduce tus CDs de audio desde la bandeja del sistema / Play Audio CD from systry
+(c) 2012 Alfonso Saavedra "Son Link"
+http://sonlinkblog.blogspot.com/p/systray-cd-player.html
+Under GPLv3 License
+
+Para instalarlo ejecuta como root el script install.sh
+For install execute with root user the install.sh script
+
+Command line parameters:
+-d | --device <device>: set the device from read CD (usualy /dev/sr0 or /dev/cdrom)
+-f | --force : if running another scdp instance kill her and run nwe instance
