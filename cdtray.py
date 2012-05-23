@@ -7,7 +7,7 @@
 # Under GPLv3 License
 
 import gobject, gtk
-import gettext, thread
+import gettext
 import gst
 
 from ConfigParser import ConfigParser
@@ -16,8 +16,6 @@ from os.path import isfile
 from commands import getoutput
 from ctypes import CDLL
 from optparse import OptionParser
-
-gobject.threads_init()
 
 configfile = environ['HOME']+'/.cdtray'
 
@@ -49,6 +47,52 @@ class CDTRAY():
 		self.statusicon.connect("popup-menu", self.show_menu)
 		self.statusicon.connect('activate', self.play)
 		
+		self.menu= gtk.Menu()
+		
+		# Play
+		self.play_button = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_PLAY)
+		self.play_button.connect('activate', self.play)
+		self.menu.append(self.play_button)
+		
+		# Next
+		about = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_NEXT)
+		about.connect('activate', self.next)
+		self.menu.append(about)
+		
+		# Previous
+		config = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_PREVIOUS)
+		config.connect('activate', self.prev)
+		self.menu.append(config)
+		
+		# Selection track
+		self.tracks_menu = gtk.Menu()
+		self.importm = gtk.MenuItem(label=_('Jump to'))
+		self.importm.set_submenu(self.tracks_menu)
+		self.menu.append(self.importm)
+				
+		stop = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_STOP)
+		stop.connect('activate', self.stop)
+		self.menu.append(stop)
+		
+		eject = gtk.MenuItem(label=_('Eject'))
+		eject.connect('activate', self.eject)
+		self.menu.append(eject)
+		
+		sep = gtk.SeparatorMenuItem()
+		self.menu.append(sep)
+		
+		config = gtk.ImageMenuItem(stock_id=gtk.STOCK_PREFERENCES)
+		config.connect('activate', self.configure)
+		self.menu.append(config)
+		
+		about = gtk.ImageMenuItem(stock_id=gtk.STOCK_ABOUT)
+		about.connect('activate', self.about)
+		self.menu.append(about)
+		
+		salir = gtk.ImageMenuItem(stock_id=gtk.STOCK_QUIT)
+		salir.connect('activate', self.quit)
+		self.menu.append(salir)
+
 		if self.autostart == 1:
 			self.play()
 		
@@ -57,48 +101,8 @@ class CDTRAY():
 		Show the menu
 		"""
 		
-		menu = gtk.Menu()
-		
-		# Play
-		self.play_button = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_PLAY)
-		self.play_button.connect('activate', self.play)
-		menu.append(self.play_button)
-		
-		# Next
-		about = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_NEXT)
-		about.connect('activate', self.next)
-		menu.append(about)
-		
-		# Previous
-		config = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_PREVIOUS)
-		config.connect('activate', self.prev)
-		menu.append(config)
-		
-		stop = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_STOP)
-		stop.connect('activate', self.stop)
-		menu.append(stop)
-		
-		eject = gtk.MenuItem(label='Expulsar')
-		eject.connect('activate', self.eject)
-		menu.append(eject)
-		
-		sep = gtk.SeparatorMenuItem()
-		menu.append(sep)
-		
-		config = gtk.ImageMenuItem(stock_id=gtk.STOCK_PREFERENCES)
-		config.connect('activate', self.configure)
-		menu.append(config)
-		
-		about = gtk.ImageMenuItem(stock_id=gtk.STOCK_ABOUT)
-		about.connect('activate', self.about)
-		menu.append(about)
-		
-		salir = gtk.ImageMenuItem(stock_id=gtk.STOCK_QUIT)
-		salir.connect('activate', self.quit)
-		menu.append(salir)
-		
-		menu.show_all()
-		menu.popup(None, None, gtk.status_icon_position_menu, button, time, self.statusicon)
+		self.menu.show_all()
+		self.menu.popup(None, None, gtk.status_icon_position_menu, button, time, self.statusicon)
 					
 	def play(self, *args):
 		"""
@@ -152,6 +156,9 @@ class CDTRAY():
 			self.pipeline.get_by_name("cdda").set_property("track", self.actual_track)
 			self.pipeline.set_state(gst.STATE_PLAYING)
 			self.update_info()
+		else:
+			self.stop()
+			self.actual_track = 1
 		
 	def eject(self, w, *args):
 		"""
@@ -159,6 +166,7 @@ class CDTRAY():
 		"""
 		
 		self.stop()
+		self.actual_track = 1
 		getoutput('eject '+ self.device)
 		
 	def create_pipeline(self):
@@ -177,7 +185,7 @@ class CDTRAY():
 		bus.connect("message::error", self.bus_message_error)
 		bus.connect("message::eos", self.next)
 			
-	def bus_message_error(self, bus, message):
+	def bus_message_error(self, bus, message, txt):
 		e, d = message.parse_error()
 		self.statusicon.set_tooltip_text("ERROR: "+ str(e))
 	
@@ -195,7 +203,8 @@ class CDTRAY():
 				return False
 		
 		self.update_info()
-							
+		self.update_jt_menu()
+		
 	def update_info(self):
 		"""
 		Show info on icon tooltip
@@ -210,9 +219,31 @@ class CDTRAY():
 		else:
 			total_tracks = str(self.file_tags['track-count'])
 		
-		self.statusicon.set_tooltip_text(_('Track %s of %s') % (track, total_tracks))
-		#self.statusicon.set_tooltip_markup(_('<b>Track %s of %s</b>') % (track, total_tracks))
-	
+		info_text = _('Track #actual_track of #total_tracks')
+		info_text = info_text.replace('#actual_track', track)
+		info_text = info_text.replace('#total_tracks', total_tracks)
+		self.statusicon.set_tooltip_text(info_text)
+		
+	def update_jt_menu(self):
+		"""
+		Update the Jump To submenu
+		"""
+		#self.menu.clear()
+		self.tracks_menu = gtk.Menu()
+		self.importm.set_submenu(self.tracks_menu)
+		for i in range(1, self.file_tags['track-count']+1):
+			buf = "Track %d" % i
+			menu_items = gtk.MenuItem(_("Track %d") % i)
+			self.tracks_menu.append(menu_items)
+			menu_items.connect("activate", self.change_track, i)
+						
+	def change_track(self, widget, track):
+		self.actual_track = track
+		self.pipeline.set_state(gst.STATE_READY)
+		self.pipeline.get_by_name("cdda").set_property("track", self.actual_track)
+		self.pipeline.set_state(gst.STATE_PLAYING)
+		self.update_info()
+		
 	def readconfig(self):
 		"""
 		Read the configuration
@@ -318,7 +349,7 @@ class CDTRAY():
 if __name__ == '__main__':
 
 	usage = "Usage: %prog [options]"
-	parser = OptionParser(usage=usage, version='r6 (0.4.0 stable)')
+	parser = OptionParser(usage=usage, version='r7 (0.5.0 stable)')
 	parser.add_option("-d", "--device", dest="device",
 	action="store", metavar="DEVICE", type='str', help=_("Set CD device"))
 	parser.add_option("-f", "--force", action="store_true", dest="force", default=False, help=_("Force kill another cdtray instance"))

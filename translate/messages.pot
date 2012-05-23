@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 22:22+0200\n"
+"POT-Creation-Date: 2012-05-23 15:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,36 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../cdtray.py:213
-#, python-format
-msgid "Track %s of %s"
+#: ../cdtray.py:71
+msgid "Jump to"
 msgstr ""
 
-#: ../cdtray.py:239
+#: ../cdtray.py:79
+msgid "Eject"
+msgstr ""
+
+#: ../cdtray.py:221
+msgid "Track #actual_track of #total_tracks"
+msgstr ""
+
+#: ../cdtray.py:235
+#, python-format
+msgid "Track %d"
+msgstr ""
+
+#: ../cdtray.py:273
 msgid "Configure CD Tray"
 msgstr ""
 
-#: ../cdtray.py:272
+#: ../cdtray.py:306
 msgid "Set CD Device"
 msgstr ""
 
-#: ../cdtray.py:284
+#: ../cdtray.py:318
 msgid "autostart at boot"
 msgstr ""
 
-#: ../cdtray.py:302
+#: ../cdtray.py:336
 msgid ""
 "Special Thanks:\n"
 "To the Desde linux users for supporting me with their ideas\n"
@@ -42,23 +54,23 @@ msgid ""
 "And for all of you for downloading and using this program"
 msgstr ""
 
-#: ../cdtray.py:304
+#: ../cdtray.py:338
 msgid "Proyect page on my blog (Only in spanish)"
 msgstr ""
 
-#: ../cdtray.py:323
+#: ../cdtray.py:357
 msgid "Set CD device"
 msgstr ""
 
-#: ../cdtray.py:324
+#: ../cdtray.py:358
 msgid "Force kill another cdtray instance"
 msgstr ""
 
-#: ../cdtray.py:344
+#: ../cdtray.py:378
 msgid "Error!"
 msgstr ""
 
-#: ../cdtray.py:345
+#: ../cdtray.py:379
 msgid ""
 "There is another cdtray instance running. If the program didn't close "
 "correctly, kill cdtray process"

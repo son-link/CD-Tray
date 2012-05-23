@@ -18,3 +18,8 @@ r6 (0.4.0 stable):
 	* Added "About" dialog
 	* Updated english translation
 on 04/04/2012 at 23:15 hours
+
+r7 (0.5.0 stable):
+	* Now is posible select a track from submenu
+	* Solved a fix in eject. Now change the actual_track variable to 1 (first track)
+	* Other minor changes

@@ -5,12 +5,12 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: scdp\n"
+"Project-Id-Version: cdtray\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-04 22:22+0200\n"
-"PO-Revision-Date: 2012-04-04 22:27+0100\n"
+"POT-Creation-Date: 2012-05-23 15:49+0200\n"
+"PO-Revision-Date: 2012-05-23 15:51+0100\n"
 "Last-Translator: Alfonso Saavedra \"Son Link\" <sonlink.dourden@gmail.com>\n"
-"Language-Team: \n"
+"Language-Team: Main team\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,24 +18,36 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: SPAIN\n"
 
-#: ../cdtray.py:213
-#, python-format
-msgid "Track %s of %s"
-msgstr "Pista %s de %s"
+#: ../cdtray.py:71
+msgid "Jump to"
+msgstr "Saltar a"
 
-#: ../cdtray.py:239
+#: ../cdtray.py:79
+msgid "Eject"
+msgstr "Expulsar"
+
+#: ../cdtray.py:221
+msgid "Track #actual_track of #total_tracks"
+msgstr "Pista #actual_track de #total_tracks"
+
+#: ../cdtray.py:235
+#, python-format
+msgid "Track %d"
+msgstr "pista %s"
+
+#: ../cdtray.py:273
 msgid "Configure CD Tray"
 msgstr "Configurar CD Tray"
 
-#: ../cdtray.py:272
+#: ../cdtray.py:306
 msgid "Set CD Device"
 msgstr "Dispositivo del CD"
 
-#: ../cdtray.py:284
+#: ../cdtray.py:318
 msgid "autostart at boot"
 msgstr "Auto arrancar al inicio"
 
-#: ../cdtray.py:302
+#: ../cdtray.py:336
 msgid ""
 "Special Thanks:\n"
 "To the Desde linux users for supporting me with their ideas\n"
@@ -47,25 +59,28 @@ msgstr ""
 "Al usuario de Desdelinux proper por sugerir el nombre del programa.\n"
 "Y a todos vosotros por descargarlo y usarlo."
 
-#: ../cdtray.py:304
+#: ../cdtray.py:338
 msgid "Proyect page on my blog (Only in spanish)"
 msgstr "Pagina del proyecto en mi blog"
 
-#: ../cdtray.py:323
+#: ../cdtray.py:357
 msgid "Set CD device"
 msgstr "Dispositivo del CD"
 
-#: ../cdtray.py:324
+#: ../cdtray.py:358
 msgid "Force kill another cdtray instance"
 msgstr "Forzar el cierra de otra instancia de cdtray"
 
-#: ../cdtray.py:344
+#: ../cdtray.py:378
 msgid "Error!"
 msgstr "¡Error!"
 
-#: ../cdtray.py:345
+#: ../cdtray.py:379
 msgid "There is another cdtray instance running. If the program didn't close correctly, kill cdtray process"
 msgstr "Ya se esta ejecutando una instancia de CD Tray. Si el programa no salio correctamente, mate el proceso cdtray"
+
+#~ msgid "Track %s of %s"
+#~ msgstr "Pista %s de %s"
 
 #~ msgid "Set device from read CD"
 #~ msgstr "Ruta al dispositivo del CD"
