@@ -1,0 +1,58 @@
+--- cdtray.py	2012-09-14 16:55:11.647780701 +0200
++++ cdtray_debian.py	2012-09-14 17:01:28.912377151 +0200
+@@ -11,7 +11,7 @@
+ import gst
+
+ from ConfigParser import ConfigParser
+-from os import environ, getcwd
++from os import environ
+ from os.path import isfile
+ from commands import getoutput
+ from ctypes import CDLL
+@@ -44,7 +44,7 @@
+
+ 		self.statusicon = gtk.StatusIcon()
+
+-		self.statusicon.set_from_file('cdtray.svg')
++		self.statusicon.set_from_icon_name('cdtray')
+ 		self.statusicon.connect("popup-menu", self.show_menu)
+ 		self.statusicon.connect('activate', self.play)
+
+@@ -241,8 +241,7 @@
+ 		# Send notify
+ 		if self.shownotify == 1:
+ 			pynotify.init('CD Tray')
+-			img = '%s/cdtray.svg' % getcwd()
+-			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, img)
++			notify = pynotify.Notification('CD Tray', _('Playing track %s') % track, '/usr/share/icons/cdtray.svg')
+ 			notify.show()
+
+ 	def change_track(self, widget, track):
+@@ -384,7 +383,7 @@
+ 	process = getoutput('ps -A')
+ 	# Check is exist another PacSyu instace
+ 	if not 'cdtray' in process:
+-		libc = CDLL('/lib/libc.so.6')
++		libc = CDLL('/lib/i386-linux-gnu/libc.so.6')
+ 		libc.prctl (15, 'cdtray', 0, 0, 0)
+ 		CDTRAY()
+ 		gtk.main()
+@@ -392,7 +391,7 @@
+ 	else:
+ 		if options.force:
+ 			kill = getoutput('killall cdtray')
+-			libc = CDLL('/lib/libc.so.6')
++			libc = CDLL('/lib/i386-linux-gnu/libc.so.6')
+ 			libc.prctl (15, 'cdtray', 0, 0, 0)
+ 			CDTRAY()
+ 			gtk.main()
+@@ -349,8 +348,7 @@
+
+ 		info = gtk.AboutDialog()
+ 		info.set_name('CD Tray')
+-		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
+-		info.set_logo(logo)
++		info.set_logo_icon_name('cdtray')
+ 		info.set_version('r8')
+ 		f = open('COPYING', 'r')
+ 		info.set_license(f.read())

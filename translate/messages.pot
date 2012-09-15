@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-23 15:52+0200\n"
+"POT-Creation-Date: 2012-09-14 17:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../cdtray.py:71
+#: ../cdtray.py:70
 msgid "Jump to"
 msgstr ""
 
-#: ../cdtray.py:79
+#: ../cdtray.py:78
 msgid "Eject"
 msgstr ""
 
@@ -29,24 +29,33 @@ msgstr ""
 msgid "Track #actual_track of #total_tracks"
 msgstr ""
 
-#: ../cdtray.py:235
+#: ../cdtray.py:239
 #, python-format
-msgid "Track %d"
+msgid "Track %s"
 msgstr ""
 
-#: ../cdtray.py:273
+#: ../cdtray.py:249
+#, python-format
+msgid "Playing track %s"
+msgstr ""
+
+#: ../cdtray.py:283
 msgid "Configure CD Tray"
 msgstr ""
 
-#: ../cdtray.py:306
+#: ../cdtray.py:324
 msgid "Set CD Device"
 msgstr ""
 
-#: ../cdtray.py:318
+#: ../cdtray.py:336
 msgid "autostart at boot"
 msgstr ""
 
-#: ../cdtray.py:336
+#: ../cdtray.py:342
+msgid "Show notifications when start new track"
+msgstr ""
+
+#: ../cdtray.py:362
 msgid ""
 "Special Thanks:\n"
 "To the Desde linux users for supporting me with their ideas\n"
@@ -54,23 +63,23 @@ msgid ""
 "And for all of you for downloading and using this program"
 msgstr ""
 
-#: ../cdtray.py:338
+#: ../cdtray.py:364
 msgid "Proyect page on my blog (Only in spanish)"
 msgstr ""
 
-#: ../cdtray.py:357
+#: ../cdtray.py:383
 msgid "Set CD device"
 msgstr ""
 
-#: ../cdtray.py:358
+#: ../cdtray.py:384
 msgid "Force kill another cdtray instance"
 msgstr ""
 
-#: ../cdtray.py:378
+#: ../cdtray.py:404
 msgid "Error!"
 msgstr ""
 
-#: ../cdtray.py:379
+#: ../cdtray.py:405
 msgid ""
 "There is another cdtray instance running. If the program didn't close "
 "correctly, kill cdtray process"
