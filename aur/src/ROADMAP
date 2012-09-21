@@ -1,5 +1,0 @@
-Mapa de ruta para Systray CD Player:
-
-Añadir un parámetro que al ser invocado el programa desde un montador de discos (como thunar-volman) se pare la reproducción (si estaba reproduciendo) y se empiece a leer
-el disco desde la primera pista.
-Cambiar el tooltip por uno que contenga algo mas de información (como el tiempo de reproducción)

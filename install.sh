@@ -8,6 +8,8 @@ mkdir -p /usr/share/cdtray
 install -m644 COPYING /usr/share/cdtray
 sed -i "s/lang/\/usr\/share\/locale/g" /usr/bin/cdtray
 sed -i "s/COPYING/\/usr\/share\/cdtray\/COPYING/g" /usr/bin/cdtray
+mkdir -p /usr/share/icons
+install -m644 cdtray.svg /usr/share/icons
 echo 'You use Debian/Ubuntu/Linux Mint on other deribated distributions? [y/N]'
 read debian
 if [ $debian = 'y' ] || [ $debian = 'Y' ]; then
