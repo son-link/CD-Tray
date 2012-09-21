@@ -30,3 +30,6 @@ r8 (0.6.0 stable):
 	* Fix a error in check if another instance of cdtray is running
 	* Add debian patch (the library libc.so.6 is in another directory)
 	* Now show notification when start new track
+
+r9 (0.6.1 stable):
+	* Now the next and previous options are disabled if it is playing the first or last track respectively

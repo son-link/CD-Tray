@@ -56,14 +56,14 @@ class CDTRAY():
 		self.menu.append(self.play_button)
 
 		# Next
-		about = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_NEXT)
-		about.connect('activate', self.next)
-		self.menu.append(about)
+		self.media_next = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_NEXT)
+		self.media_next.connect('activate', self.next)
+		self.menu.append(self.media_next)
 
 		# Previous
-		config = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_PREVIOUS)
-		config.connect('activate', self.prev)
-		self.menu.append(config)
+		self.media_prev = gtk.ImageMenuItem(stock_id=gtk.STOCK_MEDIA_PREVIOUS)
+		self.media_prev.connect('activate', self.prev)
+		self.menu.append(self.media_prev)
 
 		# Selection track
 		self.tracks_menu = gtk.Menu()
@@ -131,7 +131,6 @@ class CDTRAY():
 			self.pipeline.set_state(gst.STATE_READY)
 			self.pipeline.get_by_name("cdda").set_property("track", self.actual_track)
 			self.pipeline.set_state(gst.STATE_PLAYING)
-			self.update_info()
 
 	def stop(self, *args):
 		"""
@@ -154,7 +153,6 @@ class CDTRAY():
 			self.pipeline.set_state(gst.STATE_READY)
 			self.pipeline.get_by_name("cdda").set_property("track", self.actual_track)
 			self.pipeline.set_state(gst.STATE_PLAYING)
-			self.update_info()
 		else:
 			self.stop()
 			self.actual_track = 1
@@ -208,6 +206,7 @@ class CDTRAY():
 		"""
 		Show info on icon tooltip
 		"""
+
 		if self.actual_track < 10:
 			track = '0'+str(self.actual_track)
 		else:
@@ -223,11 +222,30 @@ class CDTRAY():
 		info_text = info_text.replace('#total_tracks', total_tracks)
 		self.statusicon.set_tooltip_text(info_text)
 
+		# Send notify
+		if self.shownotify == 1:
+			pynotify.init('CD Tray')
+			img = '%s/cdtray.svg' % getcwd()
+			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, img)
+			notify.show()
+
 	def update_jt_menu(self):
 		"""
 		Update the Jump To submenu
 		"""
-		#self.menu.clear()
+
+		if self.actual_track == 1:
+			self.media_prev.set_sensitive(False)
+
+		elif self.actual_track == self.file_tags['track-count']:
+			if not self.media_prev.get_sensitive():
+				self.media_prev.set_sensitive(True)
+			self.media_next.set_sensitive(False)
+
+		else:
+			self.media_next.set_sensitive(True)
+			self.media_prev.set_sensitive(True)
+
 		self.tracks_menu = gtk.Menu()
 		self.importm.set_submenu(self.tracks_menu)
 		for i in range(1, self.file_tags['track-count']+1):
@@ -242,19 +260,11 @@ class CDTRAY():
 			if i == self.actual_track:
 				menu_items.set_sensitive(False)
 
-		# Send notify
-		if self.shownotify == 1:
-			pynotify.init('CD Tray')
-			img = '%s/cdtray.svg' % getcwd()
-			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, img)
-			notify.show()
-
 	def change_track(self, widget, track):
 		self.actual_track = track
 		self.pipeline.set_state(gst.STATE_READY)
 		self.pipeline.get_by_name("cdda").set_property("track", self.actual_track)
 		self.pipeline.set_state(gst.STATE_PLAYING)
-		self.update_info()
 
 	def readconfig(self):
 		"""
@@ -355,7 +365,7 @@ class CDTRAY():
 		info.set_name('CD Tray')
 		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
 		info.set_logo(logo)
-		info.set_version('r8')
+		info.set_version('r9 (0.6.1 stable)')
 		f = open('COPYING', 'r')
 		info.set_license(f.read())
 		f.close()
@@ -378,7 +388,7 @@ class CDTRAY():
 if __name__ == '__main__':
 
 	usage = "Usage: %prog [options]"
-	parser = OptionParser(usage=usage, version='r8 (0.6.0 stable)')
+	parser = OptionParser(usage=usage, version='r9 (0.6.1 stable)')
 	parser.add_option("-d", "--device", dest="device",
 	action="store", metavar="DEVICE", type='str', help=_("Set CD device"))
 	parser.add_option("-f", "--force", action="store_true", dest="force", default=False, help=_("Force kill another cdtray instance"))
