@@ -2,7 +2,7 @@
 +++ cdtray_patch.py	2012-09-21 15:22:41.195785831 +0200
 @@ -11,7 +11,7 @@
  import gst
- 
+
  from ConfigParser import ConfigParser
 -from os import environ, getcwd
 +from os import environ
@@ -10,14 +10,14 @@
  from commands import getoutput
  from ctypes import CDLL
 @@ -44,7 +44,7 @@
- 
+
  		self.statusicon = gtk.StatusIcon()
- 
+
 -		self.statusicon.set_from_file('cdtray.svg')
-+		self.statusicon.set_from_icon_name('cdtray.svg')
++		self.statusicon.set_from_icon_name('cdtray')
  		self.statusicon.connect("popup-menu", self.show_menu)
  		self.statusicon.connect('activate', self.play)
- 
+
 @@ -225,8 +225,7 @@
  		# Send notify
  		if self.shownotify == 1:
@@ -26,10 +26,10 @@
 -			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, img)
 +			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, '/usr/share/icons/cdtray.svg')
  			notify.show()
- 
+
  	def update_jt_menu(self):
 @@ -363,8 +362,7 @@
- 
+
  		info = gtk.AboutDialog()
  		info.set_name('CD Tray')
 -		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
