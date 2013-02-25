@@ -1,40 +1,93 @@
---- cdtray.py	2012-09-21 15:23:09.388964455 +0200
-+++ cdtray_patch.py	2012-09-21 15:22:41.195785831 +0200
-@@ -11,7 +11,7 @@
- import gst
-
- from ConfigParser import ConfigParser
--from os import environ, getcwd
-+from os import environ
- from os.path import isfile
- from commands import getoutput
- from ctypes import CDLL
-@@ -44,7 +44,7 @@
-
- 		self.statusicon = gtk.StatusIcon()
-
--		self.statusicon.set_from_file('cdtray.svg')
-+		self.statusicon.set_from_icon_name('cdtray')
- 		self.statusicon.connect("popup-menu", self.show_menu)
- 		self.statusicon.connect('activate', self.play)
-
-@@ -225,8 +225,7 @@
- 		# Send notify
- 		if self.shownotify == 1:
- 			pynotify.init('CD Tray')
--			img = '%s/cdtray.svg' % getcwd()
--			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, img)
-+			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, '/usr/share/icons/cdtray.svg')
- 			notify.show()
-
- 	def update_jt_menu(self):
-@@ -363,8 +362,7 @@
-
- 		info = gtk.AboutDialog()
- 		info.set_name('CD Tray')
--		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
--		info.set_logo(logo)
-+		info.set_logo_icon_name('cdtray')
- 		info.set_version('r9 (0.6.1 stable)')
- 		f = open('COPYING', 'r')
- 		info.set_license(f.read())
+*** cdtray.py	2013-02-25 13:37:01.621425782 +0100
+--- cdtray_patch.py	2013-02-25 13:37:43.987859965 +0100
+***************
+*** 11,17 ****
+  import gst
+  
+  import ConfigParser
+! from os import environ, getcwd, walk
+  from os.path import isfile, join
+  from commands import getoutput
+  from ctypes import CDLL
+--- 11,17 ----
+  import gst
+  
+  import ConfigParser
+! from os import environ, walk
+  from os.path import isfile, join
+  from commands import getoutput
+  from ctypes import CDLL
+***************
+*** 20,26 ****
+  
+  configfile = environ['HOME']+'/.cdtray'
+  
+! t = gettext.translation('cdtray', 'lang')
+  _ = t.ugettext
+  
+  class CDTRAY():
+--- 20,26 ----
+  
+  configfile = environ['HOME']+'/.cdtray'
+  
+! t = gettext.translation('cdtray', '/usr/share/locale')
+  _ = t.ugettext
+  
+  class CDTRAY():
+***************
+*** 42,48 ****
+  
+  		self.statusicon = gtk.StatusIcon()
+  
+! 		self.statusicon.set_from_file('cdtray.svg')
+  		self.statusicon.connect("popup-menu", self.show_menu)
+  		self.statusicon.connect('activate', self.play)
+  
+--- 42,48 ----
+  
+  		self.statusicon = gtk.StatusIcon()
+  
+! 		self.statusicon.set_from_icon_name('cdtray')
+  		self.statusicon.connect("popup-menu", self.show_menu)
+  		self.statusicon.connect('activate', self.play)
+  
+***************
+*** 223,230 ****
+  		# Send notify
+  		if self.shownotify == 1:
+  			pynotify.init('CD Tray')
+! 			img = '%s/cdtray.svg' % getcwd()
+! 			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, img)
+  			notify.show()
+  
+  	def update_jt_menu(self):
+--- 223,229 ----
+  		# Send notify
+  		if self.shownotify == 1:
+  			pynotify.init('CD Tray')
+! 			notify = pynotify.Notification('CD Tray', _('Playing track %s') % self.actual_track, '/usr/share/icons/cdtray.svg')
+  			notify.show()
+  
+  	def update_jt_menu(self):
+***************
+*** 390,399 ****
+  
+  		info = gtk.AboutDialog()
+  		info.set_name('CD Tray')
+! 		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
+! 		info.set_logo(logo)
+  		info.set_version('1.0.0')
+! 		f = open('COPYING', 'r')
+  		info.set_license(f.read())
+  		f.close()
+  		info.set_comments(_('Special Thanks:\nTo the Desdelinux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))
+--- 389,397 ----
+  
+  		info = gtk.AboutDialog()
+  		info.set_name('CD Tray')
+! 		info.set_logo_icon_name('cdtray')
+  		info.set_version('1.0.0')
+! 		f = open('/usr/share/cdtray/COPYING', 'r')
+  		info.set_license(f.read())
+  		f.close()
+  		info.set_comments(_('Special Thanks:\nTo the Desdelinux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))

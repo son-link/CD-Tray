@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-14 17:25+0200\n"
+"POT-Creation-Date: 2013-02-21 19:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,69 +17,73 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../cdtray.py:70
+#: ../cdtray.py:72
 msgid "Jump to"
 msgstr ""
 
-#: ../cdtray.py:78
+#: ../cdtray.py:80
 msgid "Eject"
 msgstr ""
 
-#: ../cdtray.py:221
+#: ../cdtray.py:222
 msgid "Track #actual_track of #total_tracks"
 msgstr ""
 
-#: ../cdtray.py:239
-#, python-format
-msgid "Track %s"
-msgstr ""
-
-#: ../cdtray.py:249
+#: ../cdtray.py:231
 #, python-format
 msgid "Playing track %s"
 msgstr ""
 
-#: ../cdtray.py:283
+#: ../cdtray.py:259
+#, python-format
+msgid "Track %s"
+msgstr ""
+
+#: ../cdtray.py:301
 msgid "Configure CD Tray"
 msgstr ""
 
-#: ../cdtray.py:324
+#: ../cdtray.py:345
 msgid "Set CD Device"
 msgstr ""
 
-#: ../cdtray.py:336
+#: ../cdtray.py:357
 msgid "autostart at boot"
 msgstr ""
 
-#: ../cdtray.py:342
+#: ../cdtray.py:363
 msgid "Show notifications when start new track"
 msgstr ""
 
-#: ../cdtray.py:362
+#: ../cdtray.py:371
+msgid "Set audio output"
+msgstr ""
+
+#: ../cdtray.py:403
 msgid ""
 "Special Thanks:\n"
-"To the Desde linux users for supporting me with their ideas\n"
+"To the Desdelinux users for supporting me with their ideas\n"
 "To Desdelinux's user proper for helping me with the name of the program\n"
 "And for all of you for downloading and using this program"
 msgstr ""
 
-#: ../cdtray.py:364
+#: ../cdtray.py:405
 msgid "Proyect page on my blog (Only in spanish)"
 msgstr ""
 
-#: ../cdtray.py:383
+#: ../cdtray.py:424
 msgid "Set CD device"
 msgstr ""
 
-#: ../cdtray.py:384
+#: ../cdtray.py:425
 msgid "Force kill another cdtray instance"
 msgstr ""
 
-#: ../cdtray.py:404
+#: ../cdtray.py:445
 msgid "Error!"
 msgstr ""
 
-#: ../cdtray.py:405
+#: ../cdtray.py:446
 msgid ""
 "There is another cdtray instance running. If the program didn't close "
 "correctly, kill cdtray process"

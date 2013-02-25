@@ -33,3 +33,8 @@ r8 (0.6.0 stable):
 
 r9 (0.6.1 stable):
 	* Now the next and previous options are disabled if it is playing the first or last track respectively
+
+r10 (1.0.0 stable):
+	* Add audio device select option (ALSA, Pulse or OSS)
+	* Now on startup search the path to the libc6.so.6 lib. Is no longer necessary apply the cdtray_debian.patch patch
+	* Other minor changes.

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdtray\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-14 17:25+0200\n"
-"PO-Revision-Date: 2012-09-14 17:25+0100\n"
+"POT-Creation-Date: 2013-02-21 19:44+0100\n"
+"PO-Revision-Date: 2013-02-21 21:20+0100\n"
 "Last-Translator: Alfonso Saavedra \"Son Link\" <sonlink.dourden@gmail.com>\n"
 "Language-Team: Main team\n"
 "Language: es_ES\n"
@@ -16,49 +16,54 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: ../cdtray.py:70
+#: ../cdtray.py:72
 msgid "Jump to"
 msgstr "Saltar a"
 
-#: ../cdtray.py:78
+#: ../cdtray.py:80
 msgid "Eject"
 msgstr "Expulsar"
 
-#: ../cdtray.py:221
+#: ../cdtray.py:222
 msgid "Track #actual_track of #total_tracks"
 msgstr "Pista #actual_track de #total_tracks"
 
-#: ../cdtray.py:239
-#, python-format
-msgid "Track %s"
-msgstr "Pista %s"
-
-#: ../cdtray.py:249
+#: ../cdtray.py:231
 #, python-format
 msgid "Playing track %s"
 msgstr "Reproduciendo pista %s"
 
-#: ../cdtray.py:283
+#: ../cdtray.py:259
+#, python-format
+msgid "Track %s"
+msgstr "Pista %s"
+
+#: ../cdtray.py:301
 msgid "Configure CD Tray"
 msgstr "Configurar CD Tray"
 
-#: ../cdtray.py:324
+#: ../cdtray.py:345
 msgid "Set CD Device"
 msgstr "Dispositivo del CD"
 
-#: ../cdtray.py:336
+#: ../cdtray.py:357
 msgid "autostart at boot"
 msgstr "Auto arrancar al inicio"
 
-#: ../cdtray.py:342
+#: ../cdtray.py:363
 msgid "Show notifications when start new track"
 msgstr "Mostrar notificaciones al comenzar nueva pista"
 
-#: ../cdtray.py:362
+#: ../cdtray.py:371
+msgid "Set audio output"
+msgstr "Dispositivo de salids"
+
+#: ../cdtray.py:403
 msgid ""
 "Special Thanks:\n"
-"To the Desde linux users for supporting me with their ideas\n"
+"To the Desdelinux users for supporting me with their ideas\n"
 "To Desdelinux's user proper for helping me with the name of the program\n"
 "And for all of you for downloading and using this program"
 msgstr ""
@@ -67,23 +72,23 @@ msgstr ""
 "Al usuario de Desdelinux proper por sugerir el nombre del programa.\n"
 "Y a todos vosotros por descargarlo y usarlo."
 
-#: ../cdtray.py:364
+#: ../cdtray.py:405
 msgid "Proyect page on my blog (Only in spanish)"
 msgstr "Pagina del proyecto en mi blog"
 
-#: ../cdtray.py:383
+#: ../cdtray.py:424
 msgid "Set CD device"
 msgstr "Dispositivo del CD"
 
-#: ../cdtray.py:384
+#: ../cdtray.py:425
 msgid "Force kill another cdtray instance"
 msgstr "Forzar el cierra de otra instancia de cdtray"
 
-#: ../cdtray.py:404
+#: ../cdtray.py:445
 msgid "Error!"
 msgstr "¡Error!"
 
-#: ../cdtray.py:405
+#: ../cdtray.py:446
 msgid ""
 "There is another cdtray instance running. If the program didn't close "
 "correctly, kill cdtray process"

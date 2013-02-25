@@ -1,12 +1,9 @@
 CD Tray: Play your audio CDs directly from the system tray
-(c) 2012 Alfonso Saavedra "Son Link"
+(c) 2012-2013 Alfonso Saavedra "Son Link"
 http://sonlinkblog.blogspot.com/p/cd-tray.html
 Under GPLv3 License
 
 To install execute (as root user) the script "install.sh"
-
-Debian/Linux Mint/Ubuntu or another deribated distributions users:
-if the program return this error "OSError: /lib/libc.so.6", execute debian.sh to apply a patch (is not necessary if you install the program)
 
 Command line parameters:
 -d | --device <device>: set the device to read the CD from (usualy /dev/sr0 or /dev/cdrom)

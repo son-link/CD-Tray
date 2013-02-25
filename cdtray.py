@@ -2,29 +2,26 @@
 # -*- coding: utf-8 -*-
 
 # CD Tray: Play your Audio CDs from systray
-# (c) 2012 Alfonso Saavedra "Son Link"
-# http://sonlinkblog.blogspot.com.es/p/scripts.html
+# (c) 2012-2013 Alfonso Saavedra "Son Link"
+# http://sonlinkblog.blogspot.com/p/cd-tray.html
 # Under GPLv3 License
 
 import gobject, gtk
 import gettext, pynotify
 import gst
 
-from ConfigParser import ConfigParser
-from os import environ, getcwd
-from os.path import isfile
+import ConfigParser
+from os import environ, getcwd, walk
+from os.path import isfile, join
 from commands import getoutput
 from ctypes import CDLL
 from optparse import OptionParser
+from re import search
 
 configfile = environ['HOME']+'/.cdtray'
 
-APP = 'cdtray'
-gettext.textdomain (APP)
-gettext.bindtextdomain (APP, 'lang')
-_ = gettext.gettext
-gettext.install(APP, 'lang', unicode=1)
-
+t = gettext.translation('cdtray', 'lang')
+_ = t.ugettext
 
 class CDTRAY():
 	"""
@@ -35,11 +32,12 @@ class CDTRAY():
 		self.actual_track = 1
 
 		self.status = -1
+		# -1 -> No hace nada, 0 Stop, 1 play, 2 pause
 		self.device = ''
 		self.shownotify = 0
-		# -1 -> No hace nada, 0 Stop, 1 play, 2 pause
+		self.outputdevice = 'alsa'
 
-		self.cfg = ConfigParser()
+		self.cfg = ConfigParser.ConfigParser()
 		self.readconfig()
 
 		self.statusicon = gtk.StatusIcon()
@@ -165,13 +163,13 @@ class CDTRAY():
 		self.stop()
 		self.actual_track = 1
 		getoutput('eject '+ self.device)
+		self.update_jt_menu()
 
 	def create_pipeline(self):
 		"""
 		Create the pipelino for playing
 		"""
-
-		cdsrc = 'cdparanoiasrc device=%s track=%i name=cdda ! audioconvert ! volume name=volume ! alsasink' % (self.device, self.actual_track)
+		cdsrc = 'cdparanoiasrc device=%s track=%i name=cdda ! audioconvert ! volume name=volume ! %ssink' % (self.device, self.actual_track, self.outputdevice)
 		self.pipeline = gst.parse_launch(cdsrc)
 
 		bus = self.pipeline.get_bus()
@@ -182,7 +180,7 @@ class CDTRAY():
 		bus.connect("message::error", self.bus_message_error)
 		bus.connect("message::eos", self.next)
 
-	def bus_message_error(self, bus, message, txt):
+	def bus_message_error(self, bus, message):
 		e, d = message.parse_error()
 		self.statusicon.set_tooltip_text("ERROR: "+ str(e))
 
@@ -272,18 +270,24 @@ class CDTRAY():
 		"""
 		if not isfile(configfile):
 			f = open(configfile, 'w')
-			f.write("[cdtray]\ndevice=/dev/sr0\nautostart=0\shownotify=0")
+			f.write("[cdtray]\ndevice=/dev/sr0\nautostart=0\nshownotify=0\noutput=alsa")
 			f.close()
 
 		self.cfg.read([configfile])
+		try:
+			if options.device:
+				self.device = options.device
+			else:
+				self.device = self.cfg.get('cdtray', 'device')
 
-		if options.device:
-			self.device = options.device
-		else:
-			self.device = self.cfg.get('cdtray', 'device')
+			self.autostart = int(self.cfg.get('cdtray', 'autostart'))
+			self.shownotify = int(self.cfg.get('cdtray', 'shownotify'))
+			self.outputdevice = self.cfg.get('cdtray', 'output')
+			if not search('alsa|oss|pulse', self.outputdevice):
+				self.configure(None)
 
-		self.autostart = int(self.cfg.get('cdtray', 'autostart'))
-		self.shownotify = int(self.cfg.get('cdtray', 'shownotify'))
+		except ConfigParser.NoOptionError:
+			self.configure(None)
 
 	def configure(self, w):
 
@@ -300,7 +304,7 @@ class CDTRAY():
 
 			if res == gtk.RESPONSE_ACCEPT:
 				# If press Accept, save the new configuration
-				cfg = ConfigParser()
+				cfg = ConfigParser.ConfigParser()
 				cfg.read([configfile])
 				cfg.set('cdtray', 'device', self.device_entry.get_text())
 
@@ -316,14 +320,17 @@ class CDTRAY():
 					cfg.set('cdtray', 'shownotify', 0)
 					self.shownotify = 0
 
+				cfg.set('cdtray', 'output', audio_output.get_active_text())
+
 				f = open(configfile, "w")
 				cfg.write(f)
 				f.close()
-				if self.device != self.device_entry.get_text():
+				if self.device != self.device_entry.get_text() or self.outputdevice != audio_output.get_active_text():
 					self.stop()
 					self.actual_track = 1
 					self.status = -1
 					self.device = self.device_entry.get_text()
+					self.outputdevice = audio_output.get_active_text()
 					self.play()
 
 			w.destroy()
@@ -331,10 +338,10 @@ class CDTRAY():
 		hbox1 = gtk.HBox()
 		configwin.vbox.add(hbox1)
 
-		label = gtk.Label(str=_('Set CD Device'))
-		label.set_alignment(0, 0)
-		label.set_padding(5, 5)
-		hbox1.pack_start(label, False, False, 0)
+		label1 = gtk.Label(str=_('Set CD Device'))
+		label1.set_alignment(0, 0)
+		label1.set_padding(5, 5)
+		hbox1.pack_start(label1, False, False, 0)
 
 		self.device_entry = gtk.Entry()
 		self.device_entry.set_text(self.device)
@@ -354,6 +361,26 @@ class CDTRAY():
 			self.shownotify_check.set_active(True)
 
 		configwin.vbox.add(self.shownotify_check)
+		hbox2 = gtk.HBox()
+		configwin.vbox.add(hbox2)
+
+		label2 = gtk.Label(str=_('Set audio output'))
+		label2.set_alignment(0, 0)
+		label2.set_padding(5, 5)
+		hbox2.pack_start(label2, False, False, 0)
+
+		audio_output = gtk.combo_box_new_text()
+		audio_output.append_text('alsa')
+		audio_output.append_text('pulse')
+		audio_output.append_text('oss')
+		if self.outputdevice == 'alsa':
+			audio_output.set_active(0)
+		elif self.outputdevice == 'pulse':
+			audio_output.set_active(1)
+		elif self.outputdevice == 'oss':
+			audio_output.set_active(2)
+
+		hbox2.pack_start(audio_output, False, False, 0)
 
 		configwin.connect("response", __saveconfig)
 		configwin.show_all()
@@ -365,11 +392,11 @@ class CDTRAY():
 		info.set_name('CD Tray')
 		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
 		info.set_logo(logo)
-		info.set_version('r9 (0.6.1 stable)')
+		info.set_version('1.0.0')
 		f = open('COPYING', 'r')
 		info.set_license(f.read())
 		f.close()
-		info.set_comments(_('Special Thanks:\nTo the Desde linux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))
+		info.set_comments(_('Special Thanks:\nTo the Desdelinux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))
 		info.set_website('http://sonlinkblog.blogspot.com/p/pacsyu.html')
 		info.set_website_label(_("Proyect page on my blog (Only in spanish)"))
 		info.set_translator_credits('English: Alfonso Saavedra "Son Link"\nAurosZx')
@@ -388,7 +415,7 @@ class CDTRAY():
 if __name__ == '__main__':
 
 	usage = "Usage: %prog [options]"
-	parser = OptionParser(usage=usage, version='r9 (0.6.1 stable)')
+	parser = OptionParser(usage=usage, version='1.0.0')
 	parser.add_option("-d", "--device", dest="device",
 	action="store", metavar="DEVICE", type='str', help=_("Set CD device"))
 	parser.add_option("-f", "--force", action="store_true", dest="force", default=False, help=_("Force kill another cdtray instance"))
@@ -396,9 +423,15 @@ if __name__ == '__main__':
 	(options, args) = parser.parse_args()
 
 	process = getoutput('ps -A')
+	libc6 = 'libc.so.6'
 	# Check is exist another PacSyu instace
+	for root, dirs, files in walk('/lib'):
+		if libc6 in files:
+			libc6 = join(root, libc6)
+			break
+
 	if not 'cdtray' in process:
-		libc = CDLL('/lib/libc.so.6')
+		libc = CDLL(libc6)
 		libc.prctl (15, 'cdtray', 0, 0, 0)
 		CDTRAY()
 		gtk.main()
@@ -406,7 +439,7 @@ if __name__ == '__main__':
 	else:
 		if options.force:
 			kill = getoutput('killall cdtray')
-			libc = CDLL('/lib/libc.so.6')
+			libc = CDLL(libc6)
 			libc.prctl (15, 'cdtray', 0, 0, 0)
 			CDTRAY()
 			gtk.main()
