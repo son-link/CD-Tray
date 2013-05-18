@@ -38,3 +38,6 @@ r10 (1.0.0 stable):
 	* Add audio device select option (ALSA, Pulse or OSS)
 	* Now on startup search the path to the libc6.so.6 lib. Is no longer necessary apply the cdtray_debian.patch patch
 	* Other minor changes.
+
+r11 (1.0.1 stable):
+	* Fix libc6 search. Is not necesary the absolute patch.

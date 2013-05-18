@@ -1,5 +1,5 @@
-*** cdtray.py	2013-02-25 13:37:01.621425782 +0100
---- cdtray_patch.py	2013-02-25 13:37:43.987859965 +0100
+*** cdtray.py	2013-05-18 12:22:44.124597662 +0200
+--- cdtray_patch.py	2013-05-18 12:40:37.565373880 +0200
 ***************
 *** 11,17 ****
   import gst
@@ -70,24 +70,19 @@
   
   	def update_jt_menu(self):
 ***************
-*** 390,399 ****
-  
-  		info = gtk.AboutDialog()
-  		info.set_name('CD Tray')
-! 		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
-! 		info.set_logo(logo)
-  		info.set_version('1.0.0')
-! 		f = open('COPYING', 'r')
-  		info.set_license(f.read())
+*** 398,404 ****
   		f.close()
   		info.set_comments(_('Special Thanks:\nTo the Desdelinux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))
---- 389,397 ----
-  
-  		info = gtk.AboutDialog()
-  		info.set_name('CD Tray')
-! 		info.set_logo_icon_name('cdtray')
-  		info.set_version('1.0.0')
-! 		f = open('/usr/share/cdtray/COPYING', 'r')
-  		info.set_license(f.read())
+  		info.set_website('https://github.com/son-link/CD-Tray')
+! 		info.set_website_label(_("Proyect page"))
+  		info.set_translator_credits('English: Alfonso Saavedra "Son Link"\nAurosZx')
+  		def close(w, res):
+  			w.hide()
+--- 397,403 ----
   		f.close()
   		info.set_comments(_('Special Thanks:\nTo the Desdelinux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))
+  		info.set_website('https://github.com/son-link/CD-Tray')
+! 		info.set_website_label(_("Proyect page."))
+  		info.set_translator_credits('English: Alfonso Saavedra "Son Link"\nAurosZx')
+  		def close(w, res):
+  			w.hide()

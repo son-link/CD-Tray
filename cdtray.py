@@ -392,16 +392,17 @@ class CDTRAY():
 		info.set_name('CD Tray')
 		logo = gtk.gdk.pixbuf_new_from_file('cdtray.svg')
 		info.set_logo(logo)
-		info.set_version('1.0.0')
+		info.set_version('1.0.1')
 		f = open('COPYING', 'r')
 		info.set_license(f.read())
 		f.close()
 		info.set_comments(_('Special Thanks:\nTo the Desdelinux users for supporting me with their ideas\nTo Desdelinux\'s user proper for helping me with the name of the program\nAnd for all of you for downloading and using this program'))
-		info.set_website('http://sonlinkblog.blogspot.com/p/pacsyu.html')
-		info.set_website_label(_("Proyect page on my blog (Only in spanish)"))
+		info.set_website('https://github.com/son-link/CD-Tray')
+		info.set_website_label(_("Proyect page"))
 		info.set_translator_credits('English: Alfonso Saavedra "Son Link"\nAurosZx')
 		def close(w, res):
 			w.hide()
+			exit(1)
 		info.connect("response", close)
 		info.run()
 
@@ -415,7 +416,7 @@ class CDTRAY():
 if __name__ == '__main__':
 
 	usage = "Usage: %prog [options]"
-	parser = OptionParser(usage=usage, version='1.0.0')
+	parser = OptionParser(usage=usage, version='1.0.1')
 	parser.add_option("-d", "--device", dest="device",
 	action="store", metavar="DEVICE", type='str', help=_("Set CD device"))
 	parser.add_option("-f", "--force", action="store_true", dest="force", default=False, help=_("Force kill another cdtray instance"))
@@ -423,12 +424,8 @@ if __name__ == '__main__':
 	(options, args) = parser.parse_args()
 
 	process = getoutput('ps -A')
+
 	libc6 = 'libc.so.6'
-	# Check is exist another PacSyu instace
-	for root, dirs, files in walk('/lib'):
-		if libc6 in files:
-			libc6 = join(root, libc6)
-			break
 
 	if not 'cdtray' in process:
 		libc = CDLL(libc6)
@@ -445,6 +442,7 @@ if __name__ == '__main__':
 			gtk.main()
 		else:
 			warning = gtk.MessageDialog(parent=None, flags=0, type=gtk.MESSAGE_WARNING, buttons=gtk.BUTTONS_OK, message_format=_("Error!"))
+			warning.set_title('CD Tray')
 			warning.format_secondary_text(_("There is another cdtray instance running. If the program didn't close correctly, kill cdtray process"))
 			def close(w, res):
 				w.destroy()
