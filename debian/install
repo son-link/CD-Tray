@@ -1,2 +1,2 @@
-bin/cdtray.desktop usr/share/applications
-CDTray/cdtray.svg usr/share/pixmaps
+bin/io.sonlink.cdtray.desktop usr/share/applications/cdtray.desktop
+bin/io.sonlink.cdtray.svg usr/share/pixmaps/cdtray.svg
