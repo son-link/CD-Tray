@@ -46,6 +46,12 @@ jobs:
           name: AppImage
           path: CD_Tray-*.AppImage
 
+      - name: Archive deb package
+        uses: actions/upload-artifact@v2
+        with:
+          name: deb
+          path: cdtray-*.deb
+
       - name: Create release and upload artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
