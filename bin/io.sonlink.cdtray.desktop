@@ -8,3 +8,4 @@ Terminal=false
 Icon=cdtray
 Type=Application
 Categories=GTK;AudioVideo;
+MimeType=x-content/audio-cdda;
