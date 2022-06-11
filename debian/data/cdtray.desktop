@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=CD Tray
+Comment=Play Audio Cd from systray
+Comment[es]=Reproduce CD Audio desde la bandeja del sistema
+Exec=cdtray
+Terminal=false
+Icon=cdtray
+Type=Application
+Categories=GTK;AudioVideo;
+MimeType=x-content/audio-cdda;
