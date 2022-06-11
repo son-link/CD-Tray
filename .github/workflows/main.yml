@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt update && sudo apt-get install -yq fuse dh-virtualenv devscripts debhelper
+          sudo apt update && sudo apt-get install -yq fuse dh-virtualenv devscripts debhelper python3-setuptools
 
       - name: Create AppImage
         run: |
