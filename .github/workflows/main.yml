@@ -45,13 +45,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: AppImage
-          path: CD_Tray-*.AppImage
-
-      - name: Archive deb package
-        uses: actions/upload-artifact@v2
-        with:
-          name: deb
-          path: 'build/cdtray-*.deb'
+          path: |
+            CD_Tray-*.AppImage
+            build/cdtray-*.deb
 
       - name: Create release and upload artifacts
         env:
@@ -60,3 +56,4 @@ jobs:
           wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
           chmod +x pyuploadtool-x86_64.AppImage
           ./pyuploadtool-x86_64.AppImage CD_Tray-*.AppImage
+          ./pyuploadtool-x86_64.AppImage build/cdtray-*.deb
