@@ -39,6 +39,8 @@ jobs:
           ARCH=$(uname -m)
           VERSION=$(git describe --tags --always)
           debuild -b -us -uc
+          - mkdir build
+          - mv ../cdtray*.deb build/
 
       - name: Archive AppImage
         uses: actions/upload-artifact@v2
@@ -50,7 +52,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: deb
-          path: '../cdtray-*.deb'
+          path: 'build/cdtray-*.deb'
 
       - name: Create release and upload artifacts
         env:
