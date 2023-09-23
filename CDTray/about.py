@@ -16,19 +16,19 @@ class About(QDialog):
     def __init__(self, parent):
         super(About, self).__init__()
         self.parent = parent
-        self.setWindowIcon(QIcon(QPixmap(LOCAL_DIR + 'cdtray.svg')))
+        self.setWindowIcon(QIcon(QPixmap(LOCAL_DIR + '/cdtray.svg')))
         self.setWindowTitle(
-            _translate('ConfigDialog', 'About CD Tray')
+            _translate('AboutDialog', 'About CD Tray')
         )
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
 
-        about = """
+        about = _translate('AboutDialog', """
 CD Tray<br />
-(c) 2012 -2022 Alfonso Saavedra "Son Link"<br />
+(c) 2012 -2023 Alfonso Saavedra "Son Link"<br />
 Under the GNU/GPL 3 or newer license<br />
 <a href="https://github.com/son-link/CD-Tray">Proyect repo</a>
-        """
+        """)
 
         label1 = QLabel(_translate('ConfigDialog', about))
         label1.setTextFormat(Qt.RichText)

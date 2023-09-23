@@ -74,9 +74,9 @@ class Player():
             self.parent.nextBtn.setEnabled(False)
 
         self.parent.setToolTip(
-            _translate('MainApp', 'CD Tray: Playing track {}'.format(
+            _translate('MainApp', 'CD Tray: Playing track {}').format(
                 self.file_tags['track-number']
-            ))
+            )
         )
 
     def changeConf(self):

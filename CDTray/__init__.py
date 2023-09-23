@@ -160,7 +160,7 @@ class CDTRAY(QSystemTrayIcon):
                 tn = str(i)
 
             # self.trackMenu = QMenu(self.menu)
-            action = self.trackMenu.addAction('Track ' + tn)
+            action = self.trackMenu.addAction(_translate('MainApp', 'Track {}').format(tn))
             action.setData(i)
             action.triggered.connect(partial(self.player.changeTrack, action))
             if i == 1:
