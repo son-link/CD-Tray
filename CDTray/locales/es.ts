@@ -95,7 +95,7 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <translation>Pistas</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="63"/>
+        <location filename="../player.py" line="156"/>
         <source>Play</source>
         <translation>Reproducir</translation>
     </message>
@@ -135,19 +135,24 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../player.py" line="112"/>
+        <location filename="../player.py" line="115"/>
         <source>CD Tray: Playing track {}</source>
         <translation>CD Tray: Reproduciendo pista {}</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="172"/>
+        <location filename="../__init__.py" line="174"/>
         <source>Track {}</source>
         <translation>Pista {}</translation>
     </message>
     <message>
-        <location filename="../player.py" line="106"/>
+        <location filename="../player.py" line="110"/>
         <source>CD Tray: Playing {}</source>
         <translation>CD Tray: Reproduciendo {}</translation>
+    </message>
+    <message>
+        <location filename="../player.py" line="160"/>
+        <source>Pause</source>
+        <translation>Pausar</translation>
     </message>
 </context>
 </TS>

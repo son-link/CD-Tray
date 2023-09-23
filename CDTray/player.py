@@ -2,10 +2,11 @@ import gi
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 from PyQt5.QtCore import QCoreApplication
+from PyQt5.QtGui import QIcon
+from os import path
 from .config import Config
 from .Cddb import CddbServer
 from .sys_notify import Notification, init
-from os import path
 
 Gst.init(None)
 _translate = QCoreApplication.translate
@@ -148,10 +149,17 @@ class Player():
 
     def play(self):
         status = self.player.get_state(Gst.CLOCK_TIME_NONE)
+        icon = QIcon.fromTheme('media-playback-start')
+
         if status.state == Gst.State.PLAYING:
             self.player.set_state(Gst.State.PAUSED)
+            self.parent.playBtn.setText(_translate('MainApp', "Play"))
         else:
+            icon = QIcon.fromTheme("media-playback-pause")
             self.player.set_state(Gst.State.PLAYING)
+            self.parent.playBtn.setText(_translate('MainApp', "Pause"))
+
+        self.parent.playBtn.setIcon(icon)
 
     def prev(self):
         if self.actual_track > 0:

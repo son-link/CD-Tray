@@ -112,6 +112,7 @@ class CDTRAY(QSystemTrayIcon):
         self.nextBtn.setEnabled(False)
         self.prevBtn.setEnabled(False)
         self.stopBtn.setEnabled(False)
+        self.trackMenu.setEnabled(False)
 
         self.setContextMenu(self.menu)
 
@@ -153,6 +154,7 @@ class CDTRAY(QSystemTrayIcon):
         subprocess.run(['eject', self.config['device']])
 
     def updateMenu(self):
+        self.trackMenu.setEnabled(True)
         self.trackMenu.clear()
         if len(self.player.discTracks) > 0:
             for i in range(0, len(self.player.discTracks)):
