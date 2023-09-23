@@ -153,18 +153,27 @@ class CDTRAY(QSystemTrayIcon):
         subprocess.run(['eject', self.config['device']])
 
     def updateMenu(self):
-        for i in range(1, self.player.file_tags['track-count']+1):
-            if i < 10:
-                tn = '0'+str(i)
-            else:
-                tn = str(i)
+        self.trackMenu.clear()
+        if len(self.player.discTracks) > 0:
+            for i in range(0, len(self.player.discTracks)):
+                action = self.trackMenu.addAction(self.player.discTracks[i])
+                action.setData(i + 1)
+                action.triggered.connect(partial(self.player.changeTrack, action))
+                if i + 1 == 1:
+                    action.setEnabled(False)
+        else:
+            for i in range(1, self.player.file_tags['track-count']+1):
+                if i < 10:
+                    tn = '0'+str(i)
+                else:
+                    tn = str(i)
 
-            # self.trackMenu = QMenu(self.menu)
-            action = self.trackMenu.addAction(_translate('MainApp', 'Track {}').format(tn))
-            action.setData(i)
-            action.triggered.connect(partial(self.player.changeTrack, action))
-            if i == 1:
-                action.setEnabled(False)
+                # self.trackMenu = QMenu(self.menu)
+                action = self.trackMenu.addAction(_translate('MainApp', 'Track {}').format(tn))
+                action.setData(i)
+                action.triggered.connect(partial(self.player.changeTrack, action))
+                if i == 1:
+                    action.setEnabled(False)
 
     def exit(self):
         self.player.stop()

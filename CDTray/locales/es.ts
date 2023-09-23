@@ -57,7 +57,7 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <translation>Mostrar notificaciones al iniciar una nueva pista</translation>
     </message>
     <message>
-        <location filename="../config.py" line="53"/>
+        <location filename="../config.py" line="61"/>
         <source>Set audio output</source>
         <translation>Salida de audio</translation>
     </message>
@@ -70,6 +70,11 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <location filename="../about.py" line="20"/>
         <source>About CD Tray</source>
         <translation type="obsolete">Sobre CD Tray</translation>
+    </message>
+    <message>
+        <location filename="../config.py" line="53"/>
+        <source>Search CD data on Internet at start playing</source>
+        <translation>Buscar datos del CD en Internet al empezar a reproducir</translation>
     </message>
 </context>
 <context>
@@ -130,14 +135,19 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../player.py" line="76"/>
+        <location filename="../player.py" line="112"/>
         <source>CD Tray: Playing track {}</source>
         <translation>CD Tray: Reproduciendo pista {}</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="163"/>
+        <location filename="../__init__.py" line="172"/>
         <source>Track {}</source>
         <translation>Pista {}</translation>
+    </message>
+    <message>
+        <location filename="../player.py" line="106"/>
+        <source>CD Tray: Playing {}</source>
+        <translation>CD Tray: Reproduciendo {}</translation>
     </message>
 </context>
 </TS>

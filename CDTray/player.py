@@ -3,6 +3,9 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 from PyQt5.QtCore import QCoreApplication
 from .config import Config
+from .Cddb import CddbServer
+from libdiscid import read
+
 
 Gst.init(None)
 _translate = QCoreApplication.translate
@@ -14,6 +17,8 @@ class Player():
         self.total_tracks = 0
         self.actual_track = 1
         self.config = Config.loadConf()
+        self.discTracks = []
+        self.discTitle = ''
 
         self.player = Gst.Pipeline.new('player')
         self.source = Gst.ElementFactory.make("cdparanoiasrc", "cdda")
@@ -48,11 +53,12 @@ class Player():
             de Gstreamer, principalmente los tags de los ficheros de audio
         """
         self.file_tags = {}
+        self.config = Config.loadConf() # Reload confif, necesary for some options
         taglist = message.parse_tag()
 
         def my_callback(list, tag, user_data):
-            if tag == 'discid' or tag == 'musicbrainz-discid':
-                self.file_tags[tag] = list.get_string(tag)[1]
+            if tag == 'discid-full':
+                self.file_tags['discid'] = list.get_string(tag)[1]
             elif tag == 'track-count' or tag == 'track-number':
                 self.file_tags[tag] = list.get_uint(tag)[1]
             elif tag == 'duration':
@@ -60,7 +66,29 @@ class Player():
 
         taglist.foreach(my_callback, self)
 
-        if self.total_tracks != self.file_tags['track-count']:
+        if (
+            self.file_tags['discid'] and
+            len(self.discTracks) == 0 and
+            self.config['cddb'] == 1
+        ):
+            cddb = CddbServer()
+            discInfo = cddb.getDiscs(self.file_tags['discid'])
+
+            if discInfo:
+                for disc in discInfo:
+                    di = cddb.getDiscInfo(disc)
+
+                    if di:
+                        self.discTitle = f"{di.artist} - {di.title}"
+
+                        i = 1
+                        for t in di.tracks:
+                            self.discTracks.append(t)
+                            i = i + 1
+
+                self.parent.updateMenu()
+
+        if self.total_tracks != self.file_tags['track-count'] and len(self.discTracks) == 0:
             self.parent.updateMenu()
             self.total_tracks = self.file_tags['track-count']
 
@@ -73,11 +101,19 @@ class Player():
         if self.file_tags['track-number'] == self.total_tracks:
             self.parent.nextBtn.setEnabled(False)
 
-        self.parent.setToolTip(
-            _translate('MainApp', 'CD Tray: Playing track {}').format(
-                self.file_tags['track-number']
+        if self.discTitle and len(self.discTracks):
+            trackTitle = f"{self.discTitle} - {self.discTracks[self.actual_track - 1]}"
+            self.parent.setToolTip(
+                _translate('MainApp', 'CD Tray: Playing {}').format(
+                    trackTitle
+                )
             )
-        )
+        else:
+            self.parent.setToolTip(
+                _translate('MainApp', 'CD Tray: Playing track {}').format(
+                    self.file_tags['track-number']
+                )
+            )
 
     def changeConf(self):
         self.player.get_by_name('cdda').set_property(
@@ -133,14 +169,15 @@ class Player():
         self.player.add(self.sink)
         self.volume.link(self.sink)
 
+        self.discTracks = []
+        self.discTitle = ''
+
     def stop(self):
         self.player.set_state(Gst.State.READY)
         self.player.set_state(Gst.State.NULL)
 
     def on_message(self, bus, message):
-        print(message)
         t = message.type
-        print(t)
         if t == Gst.MessageType.EOS:
             self.player.set_state(Gst.State.NULL)
             self.button.set_label("Start")

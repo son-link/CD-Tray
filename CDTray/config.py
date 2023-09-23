@@ -50,19 +50,27 @@ class Config(QDialog):
         )
         mainLayout.addWidget(self.notifyCheck, 3, 0, 2, 0)
 
+        self.useCDDB = QCheckBox(
+            _translate(
+                'ConfigDialog',
+                'Search CD data on Internet at start playing'
+            )
+        )
+        mainLayout.addWidget(self.useCDDB, 4, 0, 2, 0)
+
         label2 = QLabel(_translate('ConfigDialog', 'Set audio output'))
-        mainLayout.addWidget(label2, 5, 0)
+        mainLayout.addWidget(label2, 6, 0)
 
         self.outputdevice = QComboBox()
         self.outputdevice.addItem('ALSA', 'alsa')
         self.outputdevice.addItem('Pulse', 'pulse')
         self.outputdevice.addItem('Pipewire', 'pipewire')
-        mainLayout.addWidget(self.outputdevice, 5, 1)
+        mainLayout.addWidget(self.outputdevice, 6, 1)
 
         button_box = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         )
-        mainLayout.addWidget(button_box, 6, 0, 2, 0)
+        mainLayout.addWidget(button_box, 8, 0, 2, 0)
         button_box.accepted.connect(self.save)
         button_box.rejected.connect(self.close)
 
@@ -78,6 +86,10 @@ class Config(QDialog):
         if config['shownotify'] == 1:
             self.notifyCheck.setChecked(True)
 
+        self.useCDDB.setChecked(False)
+        if config['cddb'] == 1:
+            self.useCDDB.setChecked(True)
+
         index = self.outputdevice.findData(config['outputdevice'])
         self.outputdevice.setCurrentIndex(index)
 
@@ -87,9 +99,9 @@ class Config(QDialog):
     def loadConf(device=None):
         if not path.isfile(configfile):
             f = open(configfile, 'w')
-            f.write("[cdtray]\ndevice=/dev/sr0\nautostart=0\nshownotify=0\noutput=pulse")
+            f.write("[cdtray]\ndevice=/dev/sr0\nautostart=0\nshownotify=0\noutput=pulse\ncddb=0")
             f.close()
-        
+
         cfg = configparser.ConfigParser()
         cfg.read([configfile])
         config = {}
@@ -103,6 +115,14 @@ class Config(QDialog):
             config['autostart'] = int(cfg.get('cdtray', 'autostart'))
             config['shownotify'] = int(cfg.get('cdtray', 'shownotify'))
             config['outputdevice'] = cfg.get('cdtray', 'output')
+
+            config['cddb'] = 0
+            if cfg.has_option('cdtray', 'cddb'):
+                config['cddb'] = int(cfg.get('cdtray', 'cddb'))
+
+            if not search('alsa|pipewire|pulse', config['outputdevice']):
+                config['outputdevice'] = 'pulse'
+
             if not search('alsa|pipewire|pulse', config['outputdevice']):
                 config['outputdevice'] = 'pulse'
 
@@ -126,6 +146,11 @@ class Config(QDialog):
             cfg.set('cdtray', 'shownotify', '1')
         else:
             cfg.set('cdtray', 'shownotify', '0')
+
+        if self.useCDDB.isChecked():
+            cfg.set('cdtray', 'cddb', '1')
+        else:
+            cfg.set('cdtray', 'cddb', '0')
 
         cfg.set('cdtray', 'output', self.outputdevice.currentData())
 
