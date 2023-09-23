@@ -4,11 +4,12 @@ from gi.repository import Gst
 from PyQt5.QtCore import QCoreApplication
 from .config import Config
 from .Cddb import CddbServer
-from libdiscid import read
-
+from .sys_notify import Notification, init
+from os import path
 
 Gst.init(None)
 _translate = QCoreApplication.translate
+LOCAL_DIR = path.dirname(path.realpath(__file__))
 
 
 class Player():
@@ -40,6 +41,8 @@ class Player():
         )
         self.player.add(self.sink)
         self.volume.link(self.sink)
+
+        init('cdtray')
 
         bus = self.player.get_bus()
         bus.add_signal_watch()
@@ -103,17 +106,24 @@ class Player():
 
         if self.discTitle and len(self.discTracks):
             trackTitle = f"{self.discTitle} - {self.discTracks[self.actual_track - 1]}"
-            self.parent.setToolTip(
-                _translate('MainApp', 'CD Tray: Playing {}').format(
-                    trackTitle
-                )
+            notifyText = _translate('MainApp', 'CD Tray: Playing {}').format(
+                   trackTitle
             )
+            self.parent.setToolTip(notifyText)
         else:
-            self.parent.setToolTip(
-                _translate('MainApp', 'CD Tray: Playing track {}').format(
-                    self.file_tags['track-number']
-                )
+            notifyText = _translate('MainApp', 'CD Tray: Playing track {}').format(
+                self.file_tags['track-number']
             )
+            self.parent.setToolTip(notifyText)
+
+        if self.config['shownotify']:
+            n = Notification(
+                'CD Tray',
+                notifyText,
+                LOCAL_DIR + '/cdtray.svg',
+                timeout=5000
+            )
+            n.show()
 
     def changeConf(self):
         self.player.get_by_name('cdda').set_property(
