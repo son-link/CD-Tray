@@ -41,7 +41,7 @@ jobs:
           debuild -b -us -uc
           mv ../cdtray*.deb build/
           cd build
-          rename .deb '-ubuntu_20_04.deb' *.deb
+          rename 's/.deb/\-ubuntu-20.04.deb/i' *.deb
 
       - name: Archive AppImage
         uses: actions/upload-artifact@v2
@@ -83,7 +83,7 @@ jobs:
           debuild -b -us -uc
           mv ../cdtray*.deb build/
           cd build
-          rename .deb '-ubuntu_22_04.deb' *.deb
+          rename 's/.deb/\-ubuntu-22.04.deb/i' *.deb
 
       - name: Archive AppImage
         uses: actions/upload-artifact@v2
