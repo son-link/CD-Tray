@@ -40,6 +40,8 @@ jobs:
           VERSION=$(git describe --tags --always)
           debuild -b -us -uc
           mv ../cdtray*.deb build/
+          cd build
+          rename .deb -ubuntu_20_04.deb *.deb
 
       - name: Archive AppImage
         uses: actions/upload-artifact@v2
@@ -56,4 +58,44 @@ jobs:
           wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
           chmod +x pyuploadtool-x86_64.AppImage
           ./pyuploadtool-x86_64.AppImage CD_Tray-*.AppImage
+          ./pyuploadtool-x86_64.AppImage build/cdtray_*.deb
+
+  deb_ubutu_22_04:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Otherwise `git describe --tags` doesn't work
+
+      - uses: actions/checkout@v2
+        with:
+          repository: son-link/CD-Tray
+          path: cdtray
+
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt-get install -yq fuse devscripts debhelper python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
+
+      - name: Create deb package for Ubuntu 22.04
+        run: |
+          ARCH=$(uname -m)
+          VERSION=$(git describe --tags --always)
+          debuild -b -us -uc
+          mv ../cdtray*.deb build/
+          cd build
+          rename .deb -ubuntu_22_04.deb *.deb
+
+      - name: Archive AppImage
+        uses: actions/upload-artifact@v2
+        with:
+          name: deb package for Ubuntu 22.04
+          path: |
+            build/cdtray_*.deb
+
+      - name: Create release and upload artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
+          chmod +x pyuploadtool-x86_64.AppImage
           ./pyuploadtool-x86_64.AppImage build/cdtray_*.deb
