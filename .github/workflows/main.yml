@@ -47,7 +47,7 @@ jobs:
           name: AppImage
           path: |
             CD_Tray-*.AppImage
-            build/cdtray-*.deb
+            build/cdtray_*.deb
 
       - name: Create release and upload artifacts
         env:
@@ -56,4 +56,4 @@ jobs:
           wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
           chmod +x pyuploadtool-x86_64.AppImage
           ./pyuploadtool-x86_64.AppImage CD_Tray-*.AppImage
-          ./pyuploadtool-x86_64.AppImage build/cdtray-*.deb
+          ./pyuploadtool-x86_64.AppImage build/cdtray_*.deb
