@@ -43,14 +43,6 @@ jobs:
           cd build
           rename 's/.deb/\-ubuntu-20.04.deb/i' *.deb
 
-      - name: Archive AppImage
-        uses: actions/upload-artifact@v2
-        with:
-          name: AppImage
-          path: |
-            CD_Tray-*.AppImage
-            build/cdtray_*.deb
-
       - name: Create release and upload artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,6 +53,7 @@ jobs:
           ./pyuploadtool-x86_64.AppImage build/cdtray_*.deb
 
   deb_ubutu_22_04:
+    needs: [build]
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
@@ -85,7 +78,7 @@ jobs:
           cd build
           rename 's/.deb/\-ubuntu-22.04.deb/i' *.deb
 
-      - name: Archive AppImage
+      - name: Archive AppImage and deb packages
         uses: actions/upload-artifact@v2
         with:
           name: deb package for Ubuntu 22.04
