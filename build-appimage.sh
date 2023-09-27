@@ -14,7 +14,7 @@ chmod +x linuxdeploy-${ARCH}.AppImage linuxdeploy-plugin-conda.sh appimagetool-$
 
 # Set Environment
 export CONDA_CHANNELS='local;conda-forge'
-export PIP_REQUIREMENTS='pyqt5 .'
+export PIP_REQUIREMENTS='pyqt5 PyGObject .'
 install -Dm644 bin/io.sonlink.cdtray.png AppDir/usr/share/icons/cdtray.png
 install -Dm644 bin/io.sonlink.cdtray.appdata.xml AppDir/usr/share/metainfo/io.sonlink.cdtray.appdata.xml
 # Deploy
