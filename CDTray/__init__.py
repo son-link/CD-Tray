@@ -29,14 +29,19 @@ class CDTRAY(QSystemTrayIcon):
 
     def __init__(self, icon, parent=None):
         QSystemTrayIcon.__init__(self, icon, parent)
+        self.config = Config.loadConf()
+
+        def _checkDevice(options, opt_str, value, parser):
+            if not value:
+                parser.values.device = self.config['device']
 
         usage = "Usage: %prog [options]"
-        parser = OptionParser(usage=usage, version='1.0.1')
+        parser = OptionParser(usage=usage, version='2.0.rc1')
         parser.add_option("-d", "--device",
                           dest="device",
-                          action="store",
+                          action="callback",
                           metavar="DEVICE",
-                          type='str',
+                          callback=_checkDevice,
                           help=_translate('MainApp', "Set CD device"))
         parser.add_option("-f", "--force",
                           action="store_true",
@@ -55,7 +60,6 @@ class CDTRAY(QSystemTrayIcon):
         self.player = Player(self)
         self.configDialog = Config(self)
         self.about = About(self)
-        self.config = Config.loadConf()
 
         self.menu = QMenu(parent)
         self.trackMenu = self.menu.addMenu(_translate('MainApp', "Tracks"))
@@ -155,6 +159,7 @@ class CDTRAY(QSystemTrayIcon):
         icon = QIcon.fromTheme('media-playback-start')
         self.playBtn.setText(_translate('MainApp', "Play"))
         self.playBtn.setIcon(icon)
+        device = self.options.device if self.options.device else self.config['device']
         subprocess.run(['eject', self.config['device']])
 
     def updateMenu(self):
