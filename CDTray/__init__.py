@@ -151,6 +151,10 @@ class CDTRAY(QSystemTrayIcon):
         self.player.actual_track = 1
         self.player.total_tracks = 0
         self.trackMenu.clear()
+        self.trackMenu.setEnabled(False)
+        icon = QIcon.fromTheme('media-playback-start')
+        self.playBtn.setText(_translate('MainApp', "Play"))
+        self.playBtn.setIcon(icon)
         subprocess.run(['eject', self.config['device']])
 
     def updateMenu(self):
