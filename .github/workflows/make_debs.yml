@@ -1,4 +1,4 @@
-name: CI
+name: Make deb packages
 
 on:
   push:
