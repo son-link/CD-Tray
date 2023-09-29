@@ -1,5 +1,8 @@
-cdtray (2.0.0-1) stable; urgency=medium
+cdtray (2.0.rc1-1) stable; urgency=medium
 
-  * Migrate from Python 2 and PyGTK2 to Python 3 and PyQt5
+  * Migrate from Python 2 and PyGTK+ to Python 3 and PyQt5
+  * Added notifications on change track
+  * Added option to search on the CDDB (Compat Disc Database) of [gnudb](https://gnudb.org/index.php) for CD data and get album name, artist and track titles.
+  * Update Spanish translations
 
  -- Alfonso Saavedra "Son Link" <sonlin.dourden@gmail.com>  Sat, 11 Jun 2022 07:45:31 +0200
