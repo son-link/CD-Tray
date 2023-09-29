@@ -57,7 +57,9 @@ class Player():
             de Gstreamer, principalmente los tags de los ficheros de audio
         """
         self.file_tags = {}
-        self.config = Config.loadConf() # Reload confif, necesary for some options
+
+        # Reload confif, necesary for some options
+        self.config = Config.loadConf()
         taglist = message.parse_tag()
 
         def my_callback(list, tag, user_data):
@@ -112,9 +114,11 @@ class Player():
             )
             self.parent.setToolTip(notifyText)
         else:
-            notifyText = _translate('MainApp', 'CD Tray: Playing track {}').format(
-                self.file_tags['track-number']
-            )
+            notifyText = _translate(
+                'MainApp',
+                'CD Tray: Playing track {}').format(
+                    self.file_tags['track-number']
+                )
             self.parent.setToolTip(notifyText)
 
         if self.config['shownotify']:

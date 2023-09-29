@@ -80,10 +80,6 @@ class Config(QDialog):
         okBtn = QPushButton(_translate('ConfigDialog', 'Accept'))
         cancelBtn = QPushButton(_translate('ConfigDialog', 'Cancel'))
 
-        '''button_box = QDialogButtonBox(
-            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-        )'''
-
         button_box = QDialogButtonBox()
         button_box.addButton(cancelBtn, QDialogButtonBox.RejectRole)
         button_box.addButton(okBtn, QDialogButtonBox.AcceptRole)

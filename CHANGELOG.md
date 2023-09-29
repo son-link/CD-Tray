@@ -46,10 +46,9 @@
 
 * Fix libc6 search. Is not necesary the absolute patch.
 
-## 2.0.0
+## 2.0 RC1
 
 * Migrate from Python 2 and PyGTK+ to Python 3 and PyQt5
 * Added notifications on change track
 * Added option to search on the CDDB (Compat Disc Database) of [gnudb](https://gnudb.org/index.php) for CD data and get album name, artist and track titles.
-* Update spanish translations
-
+* Update Spanish translations

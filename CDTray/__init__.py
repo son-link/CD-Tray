@@ -159,8 +159,7 @@ class CDTRAY(QSystemTrayIcon):
         icon = QIcon.fromTheme('media-playback-start')
         self.playBtn.setText(_translate('MainApp', "Play"))
         self.playBtn.setIcon(icon)
-        device = self.options.device if self.options.device else self.config['device']
-        subprocess.run(['eject', self.config['device']])
+        subprocess.run(['eject', self.device])
 
     def updateMenu(self):
         self.trackMenu.setEnabled(True)
@@ -169,7 +168,10 @@ class CDTRAY(QSystemTrayIcon):
             for i in range(0, len(self.player.discTracks)):
                 action = self.trackMenu.addAction(self.player.discTracks[i])
                 action.setData(i + 1)
-                action.triggered.connect(partial(self.player.changeTrack, action))
+                action.triggered.connect(
+                    partial(self.player.changeTrack, action)
+                )
+
                 if i + 1 == 1:
                     action.setEnabled(False)
         else:
@@ -179,10 +181,14 @@ class CDTRAY(QSystemTrayIcon):
                 else:
                     tn = str(i)
 
-                # self.trackMenu = QMenu(self.menu)
-                action = self.trackMenu.addAction(_translate('MainApp', 'Track {}').format(tn))
+                action = self.trackMenu.addAction(
+                    _translate('MainApp', 'Track {}').format(tn)
+                )
                 action.setData(i)
-                action.triggered.connect(partial(self.player.changeTrack, action))
+                action.triggered.connect(
+                    partial(self.player.changeTrack, action)
+                )
+
                 if i == 1:
                     action.setEnabled(False)
 
