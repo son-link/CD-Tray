@@ -6,7 +6,9 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QLabel,
     QCheckBox,
-    QComboBox
+    QComboBox,
+    QLayout,
+    QPushButton
 )
 from PyQt5.QtGui import QIcon, QPixmap
 from os import environ, path
@@ -29,50 +31,69 @@ class Config(QDialog):
         )
 
         mainLayout = QGridLayout()
+        self.layout = mainLayout
+        widgetsLayout = QGridLayout()
+        widgetsLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.setLayout(mainLayout)
 
-        label1 = QLabel(_translate('ConfigDialog', 'Set CD Device'))
-        mainLayout.addWidget(label1, 1, 0)
+        label1 = QLabel(_translate('ConfigDialog', 'Set CD Device'), self)
+        widgetsLayout.addWidget(label1, 0, 0)
 
-        self.editDevice = QLineEdit()
-        mainLayout.addWidget(self.editDevice, 1, 1)
+        self.editDevice = QLineEdit(self)
+        widgetsLayout.addWidget(self.editDevice, 0, 1)
+
+        label2 = QLabel(_translate('ConfigDialog', 'Set audio output'), self)
+        widgetsLayout.addWidget(label2, 1, 0)
+
+        self.outputdevice = QComboBox(self)
+        self.outputdevice.addItem('ALSA', 'alsa')
+        self.outputdevice.addItem('Pulse', 'pulse')
+        self.outputdevice.addItem('Pipewire', 'pipewire')
+        widgetsLayout.addWidget(self.outputdevice, 1, 1)
 
         self.autostartCheck = QCheckBox(
-            _translate('ConfigDialog', 'autostart at boot')
+            _translate('ConfigDialog', 'autostart at boot'),
+            self
         )
-        mainLayout.addWidget(self.autostartCheck, 2, 0, 2, 0)
+        widgetsLayout.addWidget(self.autostartCheck, 2, 0, 1, 2)
 
         self.notifyCheck = QCheckBox(
             _translate(
                 'ConfigDialog',
                 'Show notifications when start new track'
-            )
+            ),
+            self
         )
-        mainLayout.addWidget(self.notifyCheck, 3, 0, 2, 0)
+        widgetsLayout.addWidget(self.notifyCheck, 3, 0, 1, 2)
 
         self.useCDDB = QCheckBox(
             _translate(
                 'ConfigDialog',
-                'Search CD data on Internet at start playing'
-            )
+                'Get disc info from the Internet'
+            ),
+            self
         )
-        mainLayout.addWidget(self.useCDDB, 4, 0, 2, 0)
+        widgetsLayout.addWidget(self.useCDDB, 4, 0, 1, 2)
 
-        label2 = QLabel(_translate('ConfigDialog', 'Set audio output'))
-        mainLayout.addWidget(label2, 6, 0)
+        mainLayout.addLayout(widgetsLayout, 0, 0, 1, 1)
 
-        self.outputdevice = QComboBox()
-        self.outputdevice.addItem('ALSA', 'alsa')
-        self.outputdevice.addItem('Pulse', 'pulse')
-        self.outputdevice.addItem('Pipewire', 'pipewire')
-        mainLayout.addWidget(self.outputdevice, 6, 1)
+        okBtn = QPushButton(_translate('ConfigDialog', 'Accept'))
+        cancelBtn = QPushButton(_translate('ConfigDialog', 'Cancel'))
 
-        button_box = QDialogButtonBox(
+        '''button_box = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-        )
-        mainLayout.addWidget(button_box, 8, 0, 2, 0)
+        )'''
+
+        button_box = QDialogButtonBox()
+        button_box.addButton(cancelBtn, QDialogButtonBox.RejectRole)
+        button_box.addButton(okBtn, QDialogButtonBox.AcceptRole)
+
+        mainLayout.addWidget(button_box, 1, 0)
         button_box.accepted.connect(self.save)
         button_box.rejected.connect(self.close)
+
+        self.adjustSize()
+        self.setFixedSize(self.size())
 
     def open(self):
         config = self.loadConf()

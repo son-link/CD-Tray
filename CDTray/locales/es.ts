@@ -42,27 +42,27 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
 <context>
     <name>ConfigDialog</name>
     <message>
-        <location filename="../config.py" line="34"/>
+        <location filename="../config.py" line="39"/>
         <source>Set CD Device</source>
         <translation>Dispositivo del CD</translation>
     </message>
     <message>
-        <location filename="../config.py" line="40"/>
+        <location filename="../config.py" line="54"/>
         <source>autostart at boot</source>
         <translation>Autoarrancar al iniciar</translation>
     </message>
     <message>
-        <location filename="../config.py" line="45"/>
+        <location filename="../config.py" line="60"/>
         <source>Show notifications when start new track</source>
         <translation>Mostrar notificaciones al iniciar una nueva pista</translation>
     </message>
     <message>
-        <location filename="../config.py" line="61"/>
+        <location filename="../config.py" line="45"/>
         <source>Set audio output</source>
         <translation>Salida de audio</translation>
     </message>
     <message>
-        <location filename="../config.py" line="27"/>
+        <location filename="../config.py" line="29"/>
         <source>Configure CD Tray</source>
         <translation>Configurar CD Tray</translation>
     </message>
@@ -74,23 +74,38 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
     <message>
         <location filename="../config.py" line="53"/>
         <source>Search CD data on Internet at start playing</source>
-        <translation>Buscar datos del CD en Internet al empezar a reproducir</translation>
+        <translation type="obsolete">Buscar datos del CD en Internet al empezar a reproducir</translation>
+    </message>
+    <message>
+        <location filename="../config.py" line="69"/>
+        <source>Get disc info from the Internet</source>
+        <translation>Obtener info del disco en Internet</translation>
+    </message>
+    <message>
+        <location filename="../config.py" line="80"/>
+        <source>Accept</source>
+        <translation>Aceptar</translation>
+    </message>
+    <message>
+        <location filename="../config.py" line="81"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
     <name>MainApp</name>
     <message>
-        <location filename="../__init__.py" line="35"/>
+        <location filename="../__init__.py" line="40"/>
         <source>Set CD device</source>
         <translation>Dispositivo del CD</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="41"/>
+        <location filename="../__init__.py" line="46"/>
         <source>Force kill another CD Tray instance</source>
         <translation>Forzar el cierre de otra instandia de CD Tray</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="61"/>
+        <location filename="../__init__.py" line="65"/>
         <source>Tracks</source>
         <translation>Pistas</translation>
     </message>
@@ -100,37 +115,37 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <translation>Reproducir</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="68"/>
+        <location filename="../__init__.py" line="72"/>
         <source>Next</source>
         <translation>Siguiente</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="73"/>
+        <location filename="../__init__.py" line="77"/>
         <source>Previous</source>
         <translation>Anterior</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="78"/>
+        <location filename="../__init__.py" line="82"/>
         <source>Stop</source>
         <translation>Parar</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="83"/>
+        <location filename="../__init__.py" line="87"/>
         <source>Eject</source>
         <translation>Expulsar</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="88"/>
+        <location filename="../__init__.py" line="92"/>
         <source>Configure</source>
         <translation>Configurar</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="93"/>
+        <location filename="../__init__.py" line="97"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="98"/>
+        <location filename="../__init__.py" line="102"/>
         <source>Exit</source>
         <translation>Salir</translation>
     </message>
@@ -140,7 +155,7 @@ Bajo licencia GNU/GPL 3 o mas nueva&lt;br /&gt;
         <translation>CD Tray: Reproduciendo pista {}</translation>
     </message>
     <message>
-        <location filename="../__init__.py" line="174"/>
+        <location filename="../__init__.py" line="183"/>
         <source>Track {}</source>
         <translation>Pista {}</translation>
     </message>
