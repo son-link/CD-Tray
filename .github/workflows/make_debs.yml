@@ -22,13 +22,10 @@ jobs:
         with:
           repository: son-link/CD-Tray
           path: cdtray
-          
-      - name: Install dependencies
-        run: |
-          sudo apt update && sudo apt-get install -yq fuse devscripts debhelper python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi rename
-          
+      
       - uses: jtdor/build-deb-action@v1
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
           buildpackage-opts: --build=binary --no-sign
+          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
