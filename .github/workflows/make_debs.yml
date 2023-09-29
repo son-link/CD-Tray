@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    #branches: [ ci ]
+    tags:
+      - 'v.*.*.*'
+      - ci
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Otherwise `git describe --tags` doesn't work
+
+      - uses: actions/checkout@v2
+        with:
+          repository: son-link/CD-Tray
+          path: cdtray
+          
+      - uses: jtdor/build-deb-action@v1
+        env:
+          DEB_BUILD_OPTIONS: noautodbgsym
+        with:
+          buildpackage-opts: --build=binary --no-sign
