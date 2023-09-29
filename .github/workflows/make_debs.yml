@@ -34,6 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt-get install -yq fuse
+          
       - name: Create release and upload artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
