@@ -3,7 +3,8 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtGui import QIcon
-from os import path
+from os import path, environ, mkdir
+import json
 from .config import Config
 from .Cddb import CddbServer
 from .sys_notify import Notification, init
@@ -11,6 +12,11 @@ from .sys_notify import Notification, init
 Gst.init(None)
 _translate = QCoreApplication.translate
 LOCAL_DIR = path.dirname(path.realpath(__file__))
+CACHE_DIR = environ['HOME'] + '/.cache/cdtray'
+
+
+if not path.exists(CACHE_DIR):
+    mkdir(CACHE_DIR)
 
 
 class Player():
@@ -77,22 +83,48 @@ class Player():
             len(self.discTracks) == 0 and
             self.config['cddb'] == 1
         ):
-            cddb = CddbServer()
-            discInfo = cddb.getDiscs(self.file_tags['discid'])
+            fileName = self.file_tags['discid'].split()[0]
+            cacheFile = CACHE_DIR + f"/{fileName}.json"
+            if not path.exists(cacheFile):
 
-            if discInfo:
-                for disc in discInfo:
-                    di = cddb.getDiscInfo(disc)
+                cddb = CddbServer()
+                discInfo = cddb.getDiscs(self.file_tags['discid'])
 
-                    if di:
-                        self.discTitle = f"{di.artist} - {di.title}"
+                if discInfo:
+                     with open(cacheFile, 'w') as fp:
+                        data = {
+                            'title': '',
+                            'tracks': []
+                        }
+
+                        for disc in discInfo:
+                            di = cddb.getDiscInfo(disc)
+
+                            if di:
+                                self.discTitle = f"{di.artist} - {di.title}"
+                                data['title'] = self.discTitle
+
+                                i = 1
+                                for t in di.tracks:
+                                    self.discTracks.append(t)
+                                    data['tracks'].append(t)
+                                    i = i + 1
+                        json.dump(data, fp, indent=4)
+            else:
+                with open(cacheFile, 'r') as fp:
+                    info = json.load(fp)
+
+                    if info:
+                        self.discTitle = info['title']
 
                         i = 1
-                        for t in di.tracks:
+                        for t in info['tracks']:
                             self.discTracks.append(t)
+
                             i = i + 1
 
-                self.parent.updateMenu()
+
+            self.parent.updateMenu()
 
         if self.total_tracks != self.file_tags['track-count'] and len(self.discTracks) == 0:
             self.parent.updateMenu()
