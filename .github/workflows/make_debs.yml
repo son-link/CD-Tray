@@ -70,20 +70,124 @@ jobs:
           name: python310
           path: cdtray_2.0.0-python3.10_all.deb
 
+  build_py39:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Otherwise `git describe --tags` doesn't work
+
+      - uses: actions/checkout@v2
+        with:
+          repository: son-link/CD-Tray
+          path: cdtray
+      
+      - uses: jtdor/build-deb-action@v1
+        env:
+          DEB_BUILD_OPTIONS: noautodbgsym
+        with:
+          docker-image: debian:11
+          buildpackage-opts: --build=binary --no-sign
+          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
+
+      - name: Rename package
+        run:  |
+          cp debian/artifacts/cdtray_2.0.0_all.deb cdtray_2.0.0-python3.9_all.deb 
+
+      - name: Upload deb package
+        uses: actions/upload-artifact@v3
+        with:
+          name: python39
+          path: cdtray_2.0.0-python3.9_all.deb
+
+  build_py38:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Otherwise `git describe --tags` doesn't work
+
+      - uses: actions/checkout@v2
+        with:
+          repository: son-link/CD-Tray
+          path: cdtray
+      
+      - uses: jtdor/build-deb-action@v1
+        env:
+          DEB_BUILD_OPTIONS: noautodbgsym
+        with:
+          docker-image: ubuntu:20.04
+          buildpackage-opts: --build=binary --no-sign
+          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
+
+      - name: Rename package
+        run:  |
+          cp debian/artifacts/cdtray_2.0.0_all.deb cdtray_2.0.0-python3.8_all.deb 
+
+      - name: Upload deb package
+        uses: actions/upload-artifact@v3
+        with:
+          name: python38
+          path: cdtray_2.0.0-python3.8_all.deb
+    
+  build_py37:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Otherwise `git describe --tags` doesn't work
+
+      - uses: actions/checkout@v2
+        with:
+          repository: son-link/CD-Tray
+          path: cdtray
+      
+      - uses: jtdor/build-deb-action@v1
+        env:
+          DEB_BUILD_OPTIONS: noautodbgsym
+        with:
+          docker-image: debian:10
+          buildpackage-opts: --build=binary --no-sign
+          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
+
+      - name: Rename package
+        run:  |
+          cp debian/artifacts/cdtray_2.0.0_all.deb cdtray_2.0.0-python3.7_all.deb 
+
+      - name: Upload deb package
+        uses: actions/upload-artifact@v3
+        with:
+          name: python39
+          path: cdtray_2.0.0-python3.7_all.deb
 
   upload:
     runs-on: ubuntu-latest
-    needs: [build_py311, build_py310 ]
+    needs: [build_py311, build_py310, build_py39, build_py38, build_py37 ]
     steps:
-      - name: Download deb result for job 1
+      - name: Download deb result for build_py311
         uses: actions/download-artifact@v3
         with:
           name: debian12
 
-      - name: Download deb result for job 1
+      - name: Download deb result for build_py310
         uses: actions/download-artifact@v3
         with:
           name: python310
+
+      - name: Download deb result for build_py39
+        uses: actions/download-artifact@v3
+        with:
+          name: python39
+
+      - name: Download deb result for build_py38
+        uses: actions/download-artifact@v3
+        with:
+          name: python38
+
+      - name: Download deb result for build_py37
+        uses: actions/download-artifact@v3
+        with:
+          name: python37
         
       - name: Install dependencies
         run: |
