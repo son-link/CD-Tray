@@ -22,28 +22,23 @@ jobs:
         with:
           repository: son-link/CD-Tray
           path: cdtray
-
-      - name: Install dependencies
-        run: |
-          sudo apt update && sudo apt-get install -yq rename
       
       - uses: jtdor/build-deb-action@v1
         env:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
           buildpackage-opts: --build=binary --no-sign
-          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi rename
+          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
 
       - name: Rename package
         run:  |
-          cd debian/artifacts/
-          rename 's/.deb/\-python3.11.deb/i' *.deb
+          cp debian/artifacts/cdtray_2.0.0_all.deb cdtray_2.0.0-oython3.11_all.deb 
 
       - name: Upload deb package
         uses: actions/upload-artifact@v3
         with:
           name: debian12
-          path: debian/artifacts/cdtray_2.0.0-python3.11_all.deb
+          path: cdtray_2.0.0-python3.11_all.deb
 
   upload:
     runs-on: ubuntu-latest
