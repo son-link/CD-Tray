@@ -60,6 +60,7 @@ class CDTRAY(QSystemTrayIcon):
         self.player = Player(self)
         self.configDialog = Config(self)
         self.about = About(self)
+        self.device = self.options.device if self.options.device else self.config['device']
 
         self.menu = QMenu(parent)
         self.trackMenu = self.menu.addMenu(_translate('MainApp', "Tracks"))

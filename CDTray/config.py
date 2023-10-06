@@ -181,4 +181,5 @@ class Config(QDialog):
             currentConf['device'] != self.editDevice.text() or
             currentConf['outputdevice'] != self.outputdevice.currentData()
         ):
+            self.parent.device = self.editDevice.text()
             self.parent.player.reset()
