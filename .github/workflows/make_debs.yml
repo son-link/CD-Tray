@@ -41,7 +41,7 @@ jobs:
           path: cdtray_2.0.0-python3.11_all.deb
 
   build_py310:
-    runs-on: ubuntu-lastet
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
