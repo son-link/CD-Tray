@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_py311:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -29,16 +29,19 @@ jobs:
         with:
           buildpackage-opts: --build=binary --no-sign
           extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
-          
+
+      - name: Rename package
+        run:  mv debian/artifacts/cdtray_2.0.0_all.deb  debian/artifacts/cdtray_2.0.0-python3.11_all.deb
+        
       - name: Upload deb package
         uses: actions/upload-artifact@v3
         with:
           name: debian12
-          path: debian/artifacts/cdtray_2.0.rc1-1_all.deb
+          path: debian/artifacts/cdtray_2.0.0-python3.11_all.deb
 
   upload:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [build_py311]
     steps:
       - name: Download deb result for job 1
         uses: actions/download-artifact@v3
