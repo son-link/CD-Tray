@@ -32,7 +32,7 @@ jobs:
 
       - name: Rename package
         run:  |
-          cp debian/artifacts/cdtray_2.0.0_all.deb cdtray_2.0.0-oython3.11_all.deb 
+          cp debian/artifacts/cdtray_2.0.0_all.deb cdtray_2.0.0-python3.11_all.deb 
 
       - name: Upload deb package
         uses: actions/upload-artifact@v3
