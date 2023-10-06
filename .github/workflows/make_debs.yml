@@ -28,11 +28,13 @@ jobs:
           DEB_BUILD_OPTIONS: noautodbgsym
         with:
           buildpackage-opts: --build=binary --no-sign
-          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi
+          extra-build-deps: python3-setuptools python3-pyqt5 python3-gst-1.0 python3-psutil python3-dbus.mainloop.pyqt5 dh-python python3-gi rename
 
       - name: Rename package
-        run:  mv debian/artifacts/cdtray_2.0.0_all.deb  debian/artifacts/cdtray_2.0.0-python3.11_all.deb
-        
+        run:  |
+          cd debian/artifacts/
+          rename 's/.deb/\-python3.11.deb/i' *.deb
+
       - name: Upload deb package
         uses: actions/upload-artifact@v3
         with:
