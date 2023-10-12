@@ -48,8 +48,8 @@ class Player():
         )
         self.player.add(self.sink)
         self.volume.link(self.sink)
-
-        init('cdtray')
+        if self.config['shownotify']:
+            init('cdtray')
 
         bus = self.player.get_bus()
         bus.add_signal_watch()
